@@ -9,7 +9,7 @@ const { YOUTUBE_API_KEY, BOT_TOKEN } = require('./config.json');
 
 const client = new Client();
 
-app.listen(3000, () => {
+app.listen(process.env.PORT, () => {
   client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
   });
