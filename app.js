@@ -5,7 +5,7 @@ const ytdl = require('ytdl-core');
 const { Client } = require('discord.js');
 
 const app = express();
-const { YOUTUBE_API_KEY, BOT_TOKEN } = require('./config.json');
+const { YOUTUBE_API_KEY, BOT_TOKEN } = require('./src/config.json');
 
 const client = new Client();
 
