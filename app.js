@@ -18,7 +18,7 @@ client.on('message', async (message) => {
   if (message.content.startsWith('?play')) {
     const search = message.content.split('?play')[1];
 
-    axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${process.env.YOUTUBE_API_KEY || YOUTUBE_API_KEY}`).then((response) => {
+    axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${process.env.YOUTUBE_API_KEY}`).then((response) => {
       console.log(response.data);
       const { videoId } = response.data.items[0].id;
 
@@ -45,4 +45,4 @@ client.on('message', async (message) => {
   }
 });
 
-client.login(process.env.BOT_TOKEN || BOT_TOKEN);
+client.login(process.env.BOT_TOKEN);
