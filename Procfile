@@ -1,1 +1,1 @@
-web: yarn start
+web: yarn add node-opus && yarn start
