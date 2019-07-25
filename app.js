@@ -5,7 +5,7 @@ const ytdl = require('ytdl-core');
 const { Client } = require('discord.js');
 
 const app = express();
-const { YOUTUBE_API_KEY, BOT_TOKEN } = require('./config.json');
+// const { YOUTUBE_API_KEY, BOT_TOKEN } = require('./config.json');
 
 const client = new Client();
 
@@ -18,7 +18,7 @@ app.listen(process.env.PORT, () => {
     if (message.content.startsWith('?play')) {
       const search = message.content.split('?play')[1];
 
-      axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${process.env.YOUTUBE_API_KEY || YOUTUBE_API_KEY}`).then((response) => {
+      axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${process.env.YOUTUBE_API_KEY}`).then((response) => {
         console.log(response.data);
         const { videoId } = response.data.items[0].id;
 
@@ -45,7 +45,7 @@ app.listen(process.env.PORT, () => {
     }
   });
 
-  client.login(process.env.BOT_TOKEN || BOT_TOKEN);
+  client.login(process.env.BOT_TOKEN);
 });
 
 app.get('/', (req, res) => {
