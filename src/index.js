@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 require('dotenv').config();
 const { Client } = require('discord.js');
-const MessageHandler = require('./src/Message/MessageHandler');
-const SongQueue = require('./src/SongQueue');
+const MessageHandler = require('./Message/MessageHandler');
+const SongQueue = require('./Structures/SongQueue');
 
 const client = new Client();
 

@@ -11,13 +11,13 @@ class SongQueue {
     this.connection = null;
     this.requestChannel = null;
     this.queue = [];
-    this.inialized = false;
+    this.initialized = false;
   }
 
   init(connection, requestChannel) {
     this.connection = connection;
     this.requestChannel = requestChannel;
-    this.inialized = true;
+    this.initialized = true;
   }
 
   async playSong(song, callback) {
@@ -32,13 +32,21 @@ class SongQueue {
 
     if (this.queue.length === 0) {
       this.queue.push(song);
-      await this.requestChannel.send(`${song.title} added to playlist`);
+      if (song.title) {
+        await this.requestChannel.send(`${song.title} added to playlist`);
+      } else {
+        await this.requestChannel.send('Request added to playlist');
+      }
       console.log('aaaa');
       this.checkQueueStatus();
       // await this.requestChannel.send(`Now Playing ${song.title}`);
     } else {
       this.queue.push(song);
-      await this.requestChannel.send(`${song.title} added to playlist`);
+      if (song.title) {
+        await this.requestChannel.send(`${song.title} added to playlist`);
+      } else {
+        await this.requestChannel.send('Request added to playlist');
+      }
     }
   }
 
@@ -48,7 +56,9 @@ class SongQueue {
     if (this.queue.length >= 1) {
       console.log(this.queue[0]);
       const nextSong = this.queue[0];
-      await this.requestChannel.send(`Now playing ${nextSong.title}`);
+      if (nextSong.title) {
+        await this.requestChannel.send(`Now playing ${nextSong.title}`);
+      }
       this.playSong(nextSong, async () => {
         this.queue.shift();
         await this.checkQueueStatus();

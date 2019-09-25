@@ -6,7 +6,7 @@
   "author": "Renato Macêdo",
   "license": "MIT",
   "scripts": {
-    "bot": "node index.js"
+    "bot": "node src/index.js"
   },
   "dependencies": {
     "axios": "^0.19.0",
