@@ -4,7 +4,7 @@
 /*
   Data structure for handling music requests
 */
-const ytdl = require('ytdl-core');
+const ytdl = require('ytdl-core-discord');
 
 class SongQueue {
   constructor() {
@@ -20,8 +20,17 @@ class SongQueue {
     this.initialized = true;
   }
 
-  async playSong(song, callback) {
-    await this.connection.play(ytdl(song.url, { filter: 'audioonly' })).on('finish', callback);
+  async playSong(url) {
+    // await this.connection.play(await ytdl(url), { type: 'opus' }).on('finish', callback);
+    const dispatcher = this.connection.play(await ytdl(url), { type: 'opus' });
+
+    dispatcher.on('finish', () => {
+      this.queue.shift();
+      this.checkQueueStatus();
+    });
+
+
+    dispatcher.on('error', console.error);
   }
 
   async add(song) {
@@ -30,41 +39,33 @@ class SongQueue {
       return;
     }
 
-    if (this.queue.length === 0) {
-      this.queue.push(song);
-      if (song.title) {
-        await this.requestChannel.send(`${song.title} added to playlist`);
-      } else {
-        await this.requestChannel.send('Request added to playlist');
-      }
-      console.log('aaaa');
-      this.checkQueueStatus();
-      // await this.requestChannel.send(`Now Playing ${song.title}`);
+    // add the song to the queue
+    this.queue.push(song);
+
+
+    // if the queue has only one song, just play it
+    if (this.queue.length === 1) {
+      await this.playSong(song.url);
+    } else if (song.title) {
+      // else send a custom message, the song will be played when the current finish
+      await this.requestChannel.send(`${song.title} added to playlist`);
     } else {
-      this.queue.push(song);
-      if (song.title) {
-        await this.requestChannel.send(`${song.title} added to playlist`);
-      } else {
-        await this.requestChannel.send('Request added to playlist');
-      }
+      await this.requestChannel.send('Request added to playlist');
     }
   }
 
   async checkQueueStatus() {
     // if the queue still have something to play
-    console.log('Current queue', this.queue);
+
     if (this.queue.length >= 1) {
-      console.log(this.queue[0]);
       const nextSong = this.queue[0];
       if (nextSong.title) {
         await this.requestChannel.send(`Now playing ${nextSong.title}`);
       }
-      this.playSong(nextSong, async () => {
-        this.queue.shift();
-        await this.checkQueueStatus();
-      });
+      this.playSong(nextSong.url);
     }
-    // if the queue has nothing more
+
+    // if the queue is empty
     if (this.queue.length === 0) {
       this.requestChannel.send('End of playlist');
     }

@@ -2,7 +2,7 @@
 module.exports = {
   name: 'leave',
   description: 'leave',
-  execute(message, args) {
+  execute(message) {
     message.member.voice.channel.leave();
   },
 };

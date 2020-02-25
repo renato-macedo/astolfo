@@ -26,12 +26,7 @@ module.exports = (message, client) => {
     client.commands.get('play').execute(message, args);
   } else if (command === 'leave') {
     client.commands.get('leave').execute(message, args);
+  } else if (command === 'next') {
+    client.commands.get('next').execute(message, args);
   }
-  // if (message.content.startsWith('?leave')) {
-  //   message.member.voice.channel.leave();
-  // }
-
-  // if (message.content.startsWith('?AYT')) {
-  //   message.channel.send('Yep');
-  // }
 };

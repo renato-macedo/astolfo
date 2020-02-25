@@ -6,7 +6,7 @@ module.exports = {
   name: 'play',
   description: 'Play a song from youtube',
   async execute(message, args) {
-    // console.log({ message, args });
+
     const searchText = args[0];
     if (message.member.voice.channel) {
       const connection = await message.member.voice.channel
@@ -23,14 +23,16 @@ module.exports = {
         queue.add({ title: '', url: `https://www.youtube.com/watch?v=${searchText.split('/watch?v=')[1]}` });
         return;
       }
-      const queryResponse = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${args.join(' ')}&key=${process.env.YOUTUBE_API_KEY}`).catch(err => console.log(err.message));
-      const { data } = queryResponse;
-      if (data.items.length === 0) {
+
+      const queryResponse = await axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURI(args.join(' '))}&type=video&key=${process.env.YOUTUBE_API_KEY}`).catch(err => console.log(err.message));
+
+      if (!queryResponse || queryResponse.data.items.length === 0) {
         message.channel.send('I couldn\'t find anything for your request');
         return;
       }
-      const { videoId } = queryResponse.data.items[0].id;
-      const { title } = queryResponse.data.items[0].snippet;
+      const firstResult = queryResponse.data.items[0];
+      const { videoId } = firstResult.id;
+      const { title } = firstResult.snippet;
       console.log(title);
 
 
