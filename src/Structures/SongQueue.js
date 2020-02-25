@@ -4,7 +4,8 @@
 /*
   Data structure for handling music requests
 */
-const ytdl = require('ytdl-core-discord');
+// const ytdl = require('ytdl-core-discord');
+const ytdl = require('ytdl-core');
 
 class SongQueue {
   constructor() {
@@ -22,9 +23,9 @@ class SongQueue {
 
   async playSong(url) {
     // await this.connection.play(await ytdl(url), { type: 'opus' }).on('finish', callback);
-    const dispatcher = this.connection.play(await ytdl(url), { type: 'opus' });
+    const dispatcher = this.connection.play(ytdl(url), { highWaterMark: 50 });
 
-    dispatcher.on('finish', () => {
+    dispatcher.on('end', () => {
       this.queue.shift();
       this.checkQueueStatus();
     });

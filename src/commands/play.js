@@ -6,7 +6,6 @@ module.exports = {
   name: 'play',
   description: 'Play a song from youtube',
   async execute(message, args) {
-
     const searchText = args[0];
     if (message.member.voice.channel) {
       const connection = await message.member.voice.channel
