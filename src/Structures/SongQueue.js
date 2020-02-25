@@ -96,4 +96,4 @@ class SongQueue {
   }
 }
 
-module.exports = SongQueue;
+module.exports = new SongQueue();

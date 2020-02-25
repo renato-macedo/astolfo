@@ -9,12 +9,11 @@
     "bot": "node src/index.js"
   },
   "dependencies": {
+    "@discordjs/opus": "^0.1.0",
     "axios": "^0.19.0",
-    "discord.js": "discordjs/discord.js",
+    "discord.js": "github:discordjs/discord.js",
     "dotenv": "^8.1.0",
-    "ffmpeg": "^0.0.4",
-    "node-opus": "^0.3.2",
-    "ytdl-core": "^0.29.7"
+    "ytdl-core": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
